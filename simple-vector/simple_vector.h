@@ -216,20 +216,13 @@ public:
         ++size_;
     }
 
-    Iterator insert(ConstIterator pos, const Type& value)
+    Iterator Insert(ConstIterator pos, const Type& value)
     {
         assert(pos >= begin() && pos <= end());
 
         size_t count = pos - items_.Get();
 
-        if (capacity_ == 0)
-        {
-            ArrayPtr<Type> temp(1);
-            temp[count] = value;
-            items_.swap(temp);
-            ++capacity_;
-        }
-        else if (size_ < capacity_)
+         if (size_ < capacity_)
         {
             std::copy_backward(items_.Get() + count, items_.Get() + size_, items_.Get() + size_ + 1);
             items_[count] = value;
@@ -255,15 +248,8 @@ public:
 
         size_t count = pos - items_.Get();
 
-        if (capacity_ == 0)
-        {
-            ArrayPtr<Type> temp(1);
-
-            temp[count] = std::move(value);
-            items_.swap(temp);
-            ++capacity_;
-        }
-        else if (size_ < capacity_)
+    
+         if (size_ < capacity_)
         {
             std::move_backward(items_.Get() + count, items_.Get() + size_, items_.Get() + size_ + 1);
             items_[count] = std::move(value);
@@ -351,7 +337,7 @@ ReserveProxyObj Reserve(size_t capacity_to_reserve) {
 template <typename Type>
 inline bool operator==(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
         
-        if (&lhs == &rhs)  return true;
+        if (&lhs == &rhs)  { return true; }
     
         return lhs.GetSize() == rhs.GetSize() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
     };
